@@ -6,21 +6,25 @@ const url = "mongodb://admin:admin@localhost:27018/blogDB?authSource=admin";
 let Post;
 
 app.post("/posts", async (req, res) => {
-    console.log(req.body);
-    const post = new Post({
-        autor: req.body.autor,
-        nickname: req.body.nickname,
-        titulo: req.body.titulo,
-        texto: req.body.texto,
-        comentarios: req.body.comentarios
-    })
-    await post.save((err, postSaved) => {
-        if (err) {
-            res.status(500).send({ message: `Error al guardar en la base de datos:${err}` });
-        } else {
-            res.status(200).send({ post: postSaved });
-        }
-    });
+    const post = req.body;
+    if (typeof post.autor != 'string' || typeof post.nickname != 'string' || typeof post.titulo != 'string' || typeof post.texto != 'string' || typeof post.comentarios != 'string') {
+        res.sendStatus(400);
+    } else {
+        const newPost = new Post({
+            autor: post.autor,
+            nickname: post.nickname,
+            titulo: post.titulo,
+            texto: post.texto,
+            comentarios: post.comentarios
+        })
+        await newPost.save((err, postSaved) => {
+            if (err) {
+                res.status(500).send({ message: `Error al guardar en la base de datos:${err}` });
+            } else {
+                res.status(200).send({ post: postSaved });
+            }
+        });
+    };
 });
 
 app.get("/posts", async (req, res) => {
@@ -51,18 +55,23 @@ app.put("/posts/:postId", async (req, res) => {
     if (!post) {
         res.status(404).send({ message: "No encontrado" });
     } else {
-        post.autor = req.body.autor;
-        post.nickname = req.body.nickname;
-        post.titulo = req.body.titulo;
-        post.texto = req.body.texto;
-        post.comentarios = req.body.comentarios;
-        await post.save((err, post) => {
-            if (err) {
-                res.status(500).send({ message: `Error al actualizar en la base de datos:${err}` });
-            } else {
-                res.status(200).send({ post });
-            }
-        });
+        const postReq = req.body;
+        if (typeof postReq.autor != 'string' || typeof postReq.nickname != 'string' || typeof postReq.titulo != 'string' || typeof postReq.texto != 'string' || typeof postReq.comentarios != 'string') {
+            res.sendStatus(400);
+        } else {
+            post.autor = postReq.autor;
+            post.nickname = postReq.nickname;
+            post.titulo = postReq.titulo;
+            post.texto = postReq.texto;
+            post.comentarios = postReq.comentarios;
+            await post.save((err, post) => {
+                if (err) {
+                    res.status(500).send({ message: `Error al actualizar en la base de datos:${err}` });
+                } else {
+                    res.status(200).send({ post });
+                }
+            });
+        }
     }
 });
 
