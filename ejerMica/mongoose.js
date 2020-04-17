@@ -81,7 +81,7 @@ app.put('/items/:id', async (req, res) => {
 
             await item.save();
 
-            res.json(toResponse(newItem));
+            res.json(toResponse(item));
         }
     }
 });
