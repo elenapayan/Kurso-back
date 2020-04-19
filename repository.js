@@ -4,10 +4,6 @@ const mongoose = require("mongoose");
 const app = require("./app");
 const url = "mongodb://admin:admin@localhost:27018/blogDB?authSource=admin";
 
-// app.use(bodyParser.urlencoded({extended: false})); 
-// app.use(bodyParser.json());
-// app.use(express.json());
-
 async function dbConnect() {
 
     await mongoose.connect(url, {
