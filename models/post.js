@@ -3,13 +3,16 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+
 const PostSchema = new Schema({
-    autor: String,
-    nickname: String,
-    titulo: String,
-    texto: String,
-    comentarios: String
+    author: { type: String, required: true },
+    nickname: { type: String, required: true },
+    title: { type: String, required: true },
+    content: { type: String, required: true },
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: "Comment"
+    }]
 });
 
-const Post = mongoose.model("Post", PostSchema);
-module.exports = Post;
+module.exports = mongoose.model("Post", PostSchema);
