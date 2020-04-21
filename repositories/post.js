@@ -1,7 +1,7 @@
 "use strict";
 
 const Post = require("../models/post");
-const Comment = require("../models/comment");
+const CommentRepository = require("./comment");
 // let Post;
 
 
@@ -14,21 +14,21 @@ class PostRepository {
         return post;
     };
 
-    //Get one post by id
+    //Get post by id
     async getPostById(postId) {
-        const post = await Post.findById(postId);
+        const post = await Post.findById(postId).populate("Comment");
         return post;
     };
 
-    //Delete one post by id
+    //Delete post by id
     async deletePost(postId) {
         const post = await Post.findByIdAndDelete(postId);
         return post;
     };
 
-    //Modify one post
+    //Modify post
     async updatePost(postId, post) {
-        const newPost = await Post.findByIdAndUpdate(postId, post, {new:true}); //{new:true} hace que cuando actualizamos el post nos muestre el post ya actualizado, sino nos muestra el post tal cual estaba antes de la modificación
+        const newPost = await Post.findByIdAndUpdate(postId, post, { new: true }); //{new:true} hace que cuando actualizamos el post nos muestre el post ya actualizado, sino nos muestra el post tal cual estaba antes de la modificación
         return newPost;
     };
 
@@ -37,6 +37,13 @@ class PostRepository {
         const newPost = new Post(post);
         const postSaved = await newPost.save();
         return postSaved;
+    };
+
+    //Add comment
+    async addComment(postId, comment) {
+        const newComment = await CommentRepository.saveComment(comment);
+        let postUpdate = await Post.findByIdAndUpdate(postId, { $push: { Comment: newComment } }, { new: true });
+        return postUpdate;
     };
 };
 

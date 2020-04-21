@@ -9,7 +9,7 @@ class PostController {
     async getPosts(req, res, next) {
         try {
             const post = await PostService.getPosts();
-            res.status(200).send({ post });
+            res.status(200).send(post);
             // res.json(post);
         } catch (err) {
             res.status(404).send(err.message); //Con err.message nos muestra sólo el mensaje de error y no el error completo
@@ -24,8 +24,12 @@ class PostController {
             const postId = req.params.postId;
             // const post = await Post.findById(postId).populate("Comments");
             const post = await PostService.getPostById(postId);
-            res.status(200).send({ post });
-            // res.json(post);
+            if (post !== null) {
+                res.status(200).send(post);
+                // res.json(post);
+            } else {
+                res.status(404).send({ message: "Not found" });
+            }
         } catch (err) {
             res.status(404).send(err.message);
         } finally {
@@ -33,13 +37,17 @@ class PostController {
         }
     }
 
-    //Delete one post by id
+    //Delete post by id
     async deletePost(req, res, next) {
         try {
             const postId = req.params.postId;
             const post = await PostService.deletePost(postId);
-            res.status(200).send({ post });
-            // res.json(post);
+            if (post !== null) {
+                res.status(200).send(post);
+                // res.json(post);
+            } else {
+                res.status(404).send({ message: "Not found" });
+            }
         } catch (err) {
             res.status(404).send(err.message);
         } finally {
@@ -64,7 +72,7 @@ class PostController {
         }
     }
 
-    //Modify one post
+    //Modify post
     async updatePost(req, res, next) {
         try {
             const postId = req.params.postId;
@@ -75,6 +83,20 @@ class PostController {
             } else {
                 res.status(200).send(post);
             }
+        } catch (err) {
+            res.status(404).send(err.message);
+        } finally {
+            next();
+        }
+    }
+
+    //Add comment
+    async addComment(req, res, next) {
+        try {
+            const postId = req.params.id;
+            const comment = req.body;
+            const updatePost = await PostService.addComment(postId, comment);
+            res.status(200).send(updatePost);
         } catch (err) {
             res.status(404).send(err.message);
         } finally {

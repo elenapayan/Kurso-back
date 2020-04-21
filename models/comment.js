@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 
 
 const CommentSchema = new Schema({
-    nickname: String,
-    comment: String,
+    nickname: { type: String, required: true },
+    comment: { type: String, required: true },
     date: { type: Date, default: Date.now }
 });
 

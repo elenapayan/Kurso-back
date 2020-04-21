@@ -34,6 +34,13 @@ class PostService {
         const post = await PostRepository.savePost(newPost);
         return post;
     }
+    
+    //Add comment
+    async addComment(postId, comment) {
+        const newComment = await PostRepository.addComment(postId, comment);
+        return newComment;
+    }
+
 }
 
 module.exports = new PostService();
