@@ -2,8 +2,7 @@
 
 const Post = require("../models/post");
 const CommentRepository = require("./comment");
-// let Post;
-
+console.log(CommentRepository);
 
 class PostRepository {
     constructor() { }
@@ -16,7 +15,7 @@ class PostRepository {
 
     //Get post by id
     async getPostById(postId) {
-        const post = await Post.findById(postId).populate("Comment");
+        const post = await Post.findById(postId).populate("Comment");////Aquí ponemos la ref del Schema??
         return post;
     };
 
@@ -41,8 +40,10 @@ class PostRepository {
 
     //Add comment
     async addComment(postId, comment) {
-        const newComment = await CommentRepository.saveComment(comment);
-        let postUpdate = await Post.findByIdAndUpdate(postId, { $push: { Comment: newComment } }, { new: true });
+        const newComment = await CommentRepository.addComment(comment);
+        console.log("newCom", newComment);
+        const postUpdate = await Post.findByIdAndUpdate(postId, { $push: { comments: newComment } }, { new: true }); //////Aquí ponemos comments porque es así como está en el modelo de Post??
+        console.log(postUpdate);
         return postUpdate;
     };
 };

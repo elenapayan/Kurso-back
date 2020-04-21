@@ -4,10 +4,12 @@ const Comment = require("../models/comment");
 
 class CommentRepository {
     constructor() { }
+
     //Create comment
-    async saveComment(comment) {
+    async addComment(comment) {
         const newComment = new Comment(comment);
         const commentSaved = await newComment.save();
+        console.log("comentSaved",commentSaved);
         return commentSaved;
     };
     //Modify comment
@@ -18,12 +20,6 @@ class CommentRepository {
     //Delete comment
     async deleteComment(commentId) {
         const comment = await Comment.findByIdAndDelete(commentId);
-        console.log(comment);
-        return comment;
-    };
-    //Get all comments
-    async getComments() {
-        const comment = await Comment.find({}); //De esta forma nos devuelve todo menos los comments y --v
         return comment;
     };
 };
