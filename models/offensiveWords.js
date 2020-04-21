@@ -4,9 +4,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 
-const WordsSchema = new Schema({
-    word: String,
-    level: Number,
+const OffensiveWordsSchema = new Schema({
+    word: { type: "String", required: true },
+    level: { type: "Number", required: true }
 });
 
-module.exports = mongoose.model("Words", WordsSchema);
+module.exports = mongoose.model("OffensiveWords", OffensiveWordsSchema);

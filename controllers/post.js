@@ -14,7 +14,7 @@ class PostController {
         } catch (err) {
             res.status(404).send(err.message); //Con err.message nos muestra sólo el mensaje de error y no el error completo
         } finally {
-            next();//En este ejemplo en concreto no lo necesitaríamos
+            next();//En este ejemplo en concreto no necesitaríamos el finally ni el next()
         }
     }
 
@@ -22,7 +22,6 @@ class PostController {
     async getPostById(req, res, next) {
         try {
             const postId = req.params.postId;
-            // const post = await Post.findById(postId).populate("Comments");
             const post = await PostService.getPostById(postId);
             if (post !== null) {
                 res.status(200).send(post);
