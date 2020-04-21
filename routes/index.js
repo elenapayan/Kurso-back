@@ -2,8 +2,8 @@
 
 const express = require("express");
 const router = express.Router();
-const postCtrl = require("../repositories/post");
-const commentCtrl = require("../repositories/comment");
+const postCtrl = require("../controllers/post");
+// const commentCtrl = require("../repositories/comment");
 // console.log(postCtrl.getPosts);
 
 //Posts
@@ -13,7 +13,7 @@ router.post("/posts", postCtrl.savePost);
 router.put("/posts/:postId", postCtrl.updatePost);
 router.delete("/posts/:postId", postCtrl.deletePost);
 //Comments
-router.post("/comments", commentCtrl.saveComment);
+// router.post("/comments", commentCtrl.saveComment);
 
 
 module.exports = router;
