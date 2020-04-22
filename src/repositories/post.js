@@ -12,7 +12,7 @@ class PostRepository {
     };
 
     async getPostById(postId) {
-        const post = await Post.findById(postId).populate("comments"); //Aquí ponemos la ref del Schema??
+        const post = await Post.findById(postId).populate("comments"); //Aquí ponemos comments porque es el nombre del array en el que insertmamos los comentarios en posts
         return post;
     };
 
