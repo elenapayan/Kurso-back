@@ -1,5 +1,6 @@
 "use strict";
 
+// const OffensiveValidator = require("../middlewares/offensiveValidator");
 const PostService = require("../services/post");
 
 class PostController {
@@ -94,10 +95,7 @@ class PostController {
         try {
             const postId = req.params.postId;
             const comment = req.body;
-            console.log(postId);
-            console.log('commentCtrl', comment);
             const updatePost = await PostService.addComment(postId, comment);
-            console.log("updatePostController", updatePost);
             res.status(200).send(updatePost);
         } catch (err) {
             res.status(404).send(err.message);

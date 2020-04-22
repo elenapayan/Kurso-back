@@ -4,7 +4,8 @@ const express = require("express");
 const router = express.Router();
 const postCtrl = require("../controllers/post");
 const commentCtrl = require("../controllers/comment");
-const offensiveWordsCtrl=require("../controllers/offensiveWords");
+const offensiveWordsCtrl = require("../controllers/offensiveWords");
+const OffensiveValidator = require("../middlewares/offensiveValidator");
 
 //Posts
 router.get("/posts", postCtrl.getPosts);
@@ -14,8 +15,8 @@ router.put("/posts/:postId", postCtrl.updatePost);
 router.delete("/posts/:postId", postCtrl.deletePost);
 
 //Comments
-router.post("/posts/:postId/comment", postCtrl.addComment);
-router.put("/comments/:commentId", commentCtrl.updateComment);
+router.post("/posts/:postId/comment", OffensiveValidator.checkwords, postCtrl.addComment);
+router.put("/comments/:commentId", OffensiveValidator.checkwords, commentCtrl.updateComment);
 router.delete("/comments/:commentId", commentCtrl.deleteComment);
 
 //OffensiveWords
