@@ -2,7 +2,7 @@
 
 const OffensiveWordsRepository = require("../repositories/offensiveWords");
 
-class OffensiveWordsController {
+class OffensiveWordsService {
     constructor() { }
 
     async getWords() {
@@ -23,4 +23,4 @@ class OffensiveWordsController {
     }
 }
 
-module.exports = new OffensiveWordsController();
+module.exports = new OffensiveWordsService();

@@ -2,7 +2,7 @@
 
 const CommentRepository = require("../repositories/comment");
 
-class CommentController {
+class CommentService {
     constructor() { }
 
     async updateComment(commentId, newComment) {
@@ -16,4 +16,4 @@ class CommentController {
     }
 }
 
-module.exports = new CommentController();
+module.exports = new CommentService();

@@ -2,7 +2,7 @@
 
 const OffensiveWord = require("../models/offensiveWords");
 
-class OffensiveWordsController {
+class OffensiveWordsRepository {
     constructor() { }
 
     async getWords() {
@@ -27,4 +27,4 @@ class OffensiveWordsController {
     };
 };
 
-module.exports = new OffensiveWordsController();
+module.exports = new OffensiveWordsRepository();

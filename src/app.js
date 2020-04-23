@@ -4,6 +4,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const mongoose = require("mongoose");
+// const fs = require("fs");
+// const https = require("https");
 const api = require("./routes/index");
 const url = "mongodb://admin:admin@localhost:27018/blogDB?authSource=admin";
 
@@ -32,7 +34,16 @@ async function main() {
     await dbConnect();
 
     app.listen(3000, () => console.log('Server started in port 3000'));
+
+    // // openssl req -nodes -new -x509 -keyout server.key -out server.cert
+    // https.createServer({
+    //     key: fs.readFileSync('server.key'),
+    //     cert: fs.readFileSync('server.cert')
+    // }, app).listen(3443, () => {
+    //     console.log("Https server started in port 3443");
+    // });
 }
+
 
 main();
 
