@@ -14,7 +14,7 @@ class CheckOffensiveWords {
         });
         const offensiveWordsFound = CheckOffensiveValidator.check(comment.comment, offensiveWords);
         if (offensiveWordsFound.length === 0) {
-            next(); ////
+            next(); 
         } else {
             const info = offensiveWordsFound.map(ow => ow.word + ' con nivel ' + ow.level);
             res.status(403).send({ message: 'No puedes utilizar: ' + info });

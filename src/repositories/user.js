@@ -1,16 +1,23 @@
 "use strict";
 
 const User = require("../models/user");
+const bcrypt = require("bcrypt");
 
 class UserRepository {
     constructor() { }
 
-    async saveUser(user) {
-        const newUser = new User(user);
+    async saveUser(username, password) {
+        const passwordHash = await bcrypt.hash(password, bcrypt.genSaltSync(8), null);
+        const newUser = new User({ username: username, password: passwordHash });
         const userSaved = await newUser.save();
-        console.log("userSaved",userSaved);
         return userSaved;
     };
+
+    async findUser(username) {
+        const user = await User.findOne({username});
+        console.log("repository user", user);
+        return user;
+    }
 };
 
 module.exports = new UserRepository();

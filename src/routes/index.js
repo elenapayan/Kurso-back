@@ -11,6 +11,7 @@ const postCtrl = require("../controllers/post");
 const commentCtrl = require("../controllers/comment");
 const offensiveWordsCtrl = require("../controllers/offensiveWords");
 const userCtrl = require("../controllers/user");
+const userRepo = require("../repositories/user");
 //Middlewares
 const OffensiveValidator = require("../middlewares/offensiveValidator");
 const basicAuth = require("../middlewares/basicAuth");
@@ -38,7 +39,8 @@ router.put("/offensiveWords/:wordId", offensiveWordsCtrl.updateWord);
 router.delete("/offensiveWords/:wordId", offensiveWordsCtrl.deleteWord);
 
 //Users
-router.post("/login", userCtrl.saveUser);
+router.post("/user", userCtrl.saveUser);
+// router.get("/user/:username", userRepo.getUser);
 
 
 module.exports = router;

@@ -2,15 +2,15 @@
 
 const UserService = require("../services/user");
 
-
 class UserController {
     constructor() { }
 
-    //Create offensiveWord
+    //Create user
     async saveUser(req, res, next) {
         try {
-            const user = req.body;
-            const newUser = await UserService.saveUser(user);
+            const username = req.body.username;
+            const password = req.body.password;
+            const newUser = await UserService.saveUser(username, password);
             res.status(200).send(newUser);
         } catch (err) {
             res.status(500).send(err.message);
