@@ -35,7 +35,7 @@ async function main() {
 
     app.listen(3000, () => console.log('Server started in port 3000'));
 
-    // // openssl req -nodes -new -x509 -keyout server.key -out server.cert
+    // // Poniendo esto en la terminal - openssl req -nodes -new -x509 -keyout server.key -out server.cert - generamos una key y un certificado inseguro de cara a utilizar https
     // https.createServer({
     //     key: fs.readFileSync('server.key'),
     //     cert: fs.readFileSync('server.cert')

@@ -9,6 +9,8 @@ class CheckBasicAuth {
     async verify(username, password, done) {
         console.log("BA", username, password);
         const user = await UserRepo.findUser(username);
+        // const token = await UserRepo.createToken(user);
+        // console.log("token mw",token);
         if (!user) {
             return done(null, false, { message: 'User not found' });
         }
@@ -17,6 +19,7 @@ class CheckBasicAuth {
         } else {
             return done(null, false, { message: 'Incorrect password' });
         }
+        
     }
 }
 

@@ -2,6 +2,7 @@
 
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 class UserRepository {
     constructor() { }
@@ -14,10 +15,17 @@ class UserRepository {
     };
 
     async findUser(username) {
-        const user = await User.findOne({username});
+        const user = await User.findOne({ username });
         console.log("repository user", user);
         return user;
     }
+
+    // async createToken(username) {
+    //     const SECRET_KEY = "SECRET_KEY"
+    //     const token = jwt.sign({ user: username }, SECRET_KEY);
+    //     console.log("token", token);
+    //     return token;
+    // }
 };
 
 module.exports = new UserRepository();
