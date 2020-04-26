@@ -6,7 +6,6 @@ const OffensiveWordsService = require("../services/offensiveWords");
 class OffensiveWordsController {
     constructor() { }
 
-    //Get all offensiveWords
     async getWords(req, res, next) {
         try {
             const word = await OffensiveWordsService.getWords();
@@ -18,7 +17,6 @@ class OffensiveWordsController {
         }
     }
 
-    //Delete offensiveWord
     async deleteWord(req, res, next) {
         try {
             const wordId = req.params.wordId;
@@ -36,7 +34,6 @@ class OffensiveWordsController {
         }
     }
 
-    //Create offensiveWord
     async saveWord(req, res, next) {
         try {
             const word = req.body;
@@ -53,7 +50,6 @@ class OffensiveWordsController {
         }
     }
 
-    //Modify offensiveWord
     async updateWord(req, res, next) {
         try {
             const wordId = req.params.wordId;

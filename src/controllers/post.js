@@ -6,7 +6,6 @@ const PostService = require("../services/post");
 class PostController {
     constructor() { }
 
-    //Get all posts
     async getPosts(req, res, next) {
         try {
             const post = await PostService.getPosts();
@@ -19,7 +18,6 @@ class PostController {
         }
     }
 
-    //Get post by id
     async getPostById(req, res, next) {
         try {
             const postId = req.params.postId;
@@ -37,7 +35,6 @@ class PostController {
         }
     }
 
-    //Delete post by id
     async deletePost(req, res, next) {
         try {
             const postId = req.params.postId;
@@ -55,7 +52,6 @@ class PostController {
         }
     }
 
-    //Create post
     async savePost(req, res, next) {
         try {
             const post = req.body;
@@ -72,7 +68,6 @@ class PostController {
         }
     }
 
-    //Modify post
     async updatePost(req, res, next) {
         try {
             const postId = req.params.postId;
@@ -90,7 +85,6 @@ class PostController {
         }
     }
 
-    //Add comment
     async addComment(req, res, next) {
         try {
             const postId = req.params.postId;

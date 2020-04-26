@@ -20,12 +20,10 @@ class UserRepository {
         return user;
     }
 
-    // async createToken(username) {
-    //     const SECRET_KEY = "SECRET_KEY"
-    //     const token = jwt.sign({ user: username }, SECRET_KEY);
-    //     console.log("token", token);
-    //     return token;
-    // }
+    async createToken(username) {
+        const token = jwt.sign({ user: username }, process.env.SECRET_KEY);
+        return token;
+    }
 };
 
 module.exports = new UserRepository();

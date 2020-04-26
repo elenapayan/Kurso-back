@@ -17,7 +17,6 @@ app.use("/api", api);
 
 
 async function dbConnect() {
-
     await mongoose.connect(process.env.MONGO_URL, {
         useUnifiedTopology: true,
         useNewUrlParser: true,
@@ -25,13 +24,10 @@ async function dbConnect() {
     });
 
     console.log("Connected to Mongo");
-
 }
 
 async function main() {
-
     await dbConnect();
-
     app.listen(process.env.PORT, () => console.log('Server started in port 3000'));
 
     // // Poniendo esto en la terminal - openssl req -nodes -new -x509 -keyout server.key -out server.cert - generamos una key y un certificado inseguro de cara a utilizar https

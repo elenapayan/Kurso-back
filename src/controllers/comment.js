@@ -5,7 +5,6 @@ const CommentService = require("../services/comment");
 class CommentController {
     constructor() { }
 
-    //Modify comment
     async updateComment(req, res, next) {
         try {
             const commentId = req.params.commentId;
@@ -23,14 +22,12 @@ class CommentController {
         }
     }
 
-    //Delete comment by id
     async deleteComment(req, res, next) {
         try {
             const commentId = req.params.commentId;
             const comment = await CommentService.deleteComment(commentId);
             if (comment !== null) {
                 res.status(200).send(comment);
-                // res.json(comment);
             } else {
                 res.status(404).send({ message: "Not found" });
             }
