@@ -2,7 +2,7 @@
 
 //.env
 require('dotenv').config();
-
+const jwt = require("jsonwebtoken");
 //Express
 const express = require("express");
 const router = express.Router();
@@ -42,14 +42,14 @@ passport.use(new JwtStrategy(jwtOpts, verifyToken));
 /*ROUTES*/
 
 //Posts
-router.get("/posts", passport.authenticate('jwt', { session: false }), postCtrl.getPosts);
+router.get("/posts", postCtrl.getPosts);
 router.get("/posts/:postId", postCtrl.getPostById);
-router.post("/posts", postCtrl.savePost);
-router.put("/posts/:postId", postCtrl.updatePost);
-router.delete("/posts/:postId", postCtrl.deletePost);
+router.post("/posts", passport.authenticate('jwt', { session: false }), postCtrl.savePost);
+router.put("/posts/:postId", passport.authenticate('jwt', { session: false }), postCtrl.updatePost);
+router.delete("/posts/:postId", passport.authenticate('jwt', { session: false }), postCtrl.deletePost);
 
 //Comments
-router.post("/posts/:postId/comment", OffensiveValidator.checkwords, postCtrl.addComment);
+router.post("/posts/:postId/comment", passport.authenticate('jwt', { session: false }), OffensiveValidator.checkwords, postCtrl.addComment);
 router.put("/comments/:commentId", OffensiveValidator.checkwords, commentCtrl.updateComment);
 router.delete("/comments/:commentId", commentCtrl.deleteComment);
 
@@ -63,7 +63,15 @@ router.delete("/offensiveWords/:wordId", offensiveWordsCtrl.deleteWord);
 router.post("/user", userCtrl.saveUser);
 
 //Login
-router.post("/login", passport.authenticate('basic', { session: false }), userCtrl.createToken);
+router.post("/login", passport.authenticate('basic', { session: false }), (req, res) => {
+    console.log(req);
+    const body = { role: req.user.role, _id: req.user._id, username: req.user.username }
+    const token = jwt.sign({ body }, process.env.SECRET_KEY);
+    return res.status(200).json({
+        message: 'Auth Passed',
+        token: token
+    })
+});
 
 
 module.exports = router;

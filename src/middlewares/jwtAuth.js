@@ -6,9 +6,9 @@ class CheckJwtAuth {
     constructor() { }
 
     async verifyToken(payload, done) {
-        console.log("payload", payload);
-        const user = await UserRepo.findUser(payload.user);
-        console.log("jwt", payload, user);
+        // console.log("payload", payload);
+        const user = await UserRepo.findUser(payload.body.username);
+        // console.log("jwt", payload, user);
         if (user) {
             return done(null, user);
         } else {

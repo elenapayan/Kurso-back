@@ -18,6 +18,7 @@ class PostRepository {
 
     async deletePost(postId) {
         const post = await Post.findByIdAndDelete(postId);
+        console.log("repo post", post);
         return post;
     };
 
@@ -26,17 +27,21 @@ class PostRepository {
         return newPost;
     };
 
-    async savePost(post) {
-        const newPost = new Post(post);
+    async savePost(post, authorId) {
+        const newPost = new Post({
+            author: post.author,
+            nickname: post.nickname,
+            authorId: authorId,
+            title: post.title,
+            content: post.content
+        });
         const postSaved = await newPost.save();
         return postSaved;
     };
 
     async addComment(postId, comment) {
         const newComment = await CommentRepository.addComment(comment);
-        console.log("newCom", newComment);
         const postUpdate = await Post.findByIdAndUpdate(postId, { $push: { comments: newComment } }, { new: true }); //Aquí ponemos comments porque es así como está en el modelo de Post
-        console.log(postUpdate);
         return postUpdate;
     };
 };

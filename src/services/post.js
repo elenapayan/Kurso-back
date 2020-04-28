@@ -25,8 +25,8 @@ class PostService {
         return post;
     }
 
-    async savePost(newPost) {
-        const post = await PostRepository.savePost(newPost);
+    async savePost(newPost, authorId) {
+        const post = await PostRepository.savePost(newPost, authorId);
         return post;
     }
     

@@ -2,7 +2,6 @@
 
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
 class UserRepository {
     constructor() { }
@@ -16,13 +15,7 @@ class UserRepository {
 
     async findUser(username) {
         const user = await User.findOne({ username });
-        console.log("repository user", user);
         return user;
-    }
-
-    async createToken(username) {
-        const token = jwt.sign({ user: username }, process.env.SECRET_KEY);
-        return token;
     }
 };
 

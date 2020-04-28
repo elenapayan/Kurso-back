@@ -26,7 +26,7 @@ class PostController {
                 res.status(200).send(post);
                 // res.json(post);
             } else {
-                res.status(404).send({ message: "Not found" });
+                res.status(404).send({ message: "No hay ningún post con ese ID" });
             }
         } catch (err) {
             res.status(404).send(err.message);
@@ -37,13 +37,40 @@ class PostController {
 
     async deletePost(req, res, next) {
         try {
+            // console.log("ctrl req", req.user._id);
             const postId = req.params.postId;
-            const post = await PostService.deletePost(postId);
-            if (post !== null) {
-                res.status(200).send(post);
-                // res.json(post);
+            const role = req.user.role;
+            const authorId = req.user._id;
+            // console.log(postId);
+            const post = await PostService.getPostById(postId);
+            // console.log("post", post);
+            if (role === "admin" || authorId.equals(post.authorId)) {
+                const postDeleted = await PostService.deletePost(postId);
+                res.status(200).send(postDeleted);
+                // console.log("ctrl post", post.authorId);
             } else {
-                res.status(404).send({ message: "Not found" });
+                res.status(401).send({ message: "No tienes permiso para eliminar este post" });
+            }
+        } catch (err) {
+            res.status(404).send(err.message);
+
+        } finally {
+            next();
+        }
+    }
+
+    async savePost(req, res, next) {
+        try {
+            // console.log("ctrl author", req.user._id);
+            const post = req.body;
+            const authorId = req.user._id;
+            // console.log("post ctrl", post);
+            const newPost = await PostService.savePost(post, authorId);
+            // console.log("ctrl authorId", authorId);
+            if (typeof newPost.author != 'string' || typeof newPost.nickname != 'string' || typeof newPost.title != 'string' || typeof newPost.content != 'string') {
+                res.status(400).send({ message: "El post debe tener los campos author, nickname, title y content" });
+            } else {
+                res.status(200).send(newPost);
             }
         } catch (err) {
             res.status(404).send(err.message);
@@ -52,31 +79,26 @@ class PostController {
         }
     }
 
-    async savePost(req, res, next) {
-        try {
-            const post = req.body;
-            const newPost = await PostService.savePost(post);
-            if (typeof newPost.author != 'string' || typeof newPost.nickname != 'string' || typeof newPost.title != 'string' || typeof newPost.content != 'string') {
-                res.status(400).send({ message: "El post debe tener los campos author, nickname, title y content" });
-            } else {
-                res.status(200).send(newPost);
-            }
-        } catch (err) {
-            res.status(500).send(err.message);
-        } finally {
-            next();
-        }
-    }
-
     async updatePost(req, res, next) {
+        // console.log("req ctrl", req.user._id);
+        // console.log(req.user.role);
         try {
             const postId = req.params.postId;
             const newPost = req.body;
-            const post = await PostService.updatePost(postId, newPost);
+            const role = req.user.role;
+            const authorId = req.user._id;
+            const post = await PostService.getPostById(postId);
+            // console.log("update", newPost, req.params);
+            // console.log("ctrl post", post);
             if (typeof newPost.author != 'string' || typeof newPost.nickname != 'string' || typeof newPost.title != 'string' || typeof newPost.content != 'string') {
                 res.status(400).send({ message: "El post debe tener los campos author, nickname, title y content" });
-            } else {
-                res.status(200).send(post);
+            }
+            if (role === "admin" || authorId.equals(post.authorId)) {
+                const postUpdated = await PostService.updatePost(postId, newPost);
+                res.status(200).send(postUpdated);
+            }
+            else {
+                res.status(401).send({ message: "No tienes permiso para modificar el post" });
             }
         } catch (err) {
             res.status(404).send(err.message);
