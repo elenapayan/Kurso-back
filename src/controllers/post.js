@@ -111,7 +111,8 @@ class PostController {
         try {
             const postId = req.params.postId;
             const comment = req.body;
-            const updatePost = await PostService.addComment(postId, comment);
+            const authorId = req.user._id;
+            const updatePost = await PostService.addComment(postId, comment, authorId);
             res.status(200).send(updatePost);
         } catch (err) {
             res.status(404).send(err.message);

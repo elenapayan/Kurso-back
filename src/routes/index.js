@@ -49,9 +49,10 @@ router.put("/posts/:postId", passport.authenticate('jwt', { session: false }), p
 router.delete("/posts/:postId", passport.authenticate('jwt', { session: false }), postCtrl.deletePost);
 
 //Comments
+router.get("/comments/:commentId", commentCtrl.getCommentById);
 router.post("/posts/:postId/comment", passport.authenticate('jwt', { session: false }), OffensiveValidator.checkwords, postCtrl.addComment);
-router.put("/comments/:commentId", OffensiveValidator.checkwords, commentCtrl.updateComment);
-router.delete("/comments/:commentId", commentCtrl.deleteComment);
+router.put("/comments/:commentId", passport.authenticate('jwt', { session: false }), OffensiveValidator.checkwords, commentCtrl.updateComment);
+router.delete("/comments/:commentId", passport.authenticate('jwt', { session: false }), commentCtrl.deleteComment);
 
 //OffensiveWords
 router.get("/offensiveWords", offensiveWordsCtrl.getWords);
@@ -65,12 +66,18 @@ router.post("/user", userCtrl.saveUser);
 //Login
 router.post("/login", passport.authenticate('basic', { session: false }), (req, res) => {
     console.log(req);
-    const body = { role: req.user.role, _id: req.user._id, username: req.user.username }
-    const token = jwt.sign({ body }, process.env.SECRET_KEY);
-    return res.status(200).json({
-        message: 'Auth Passed',
-        token: token
-    })
+    try {
+        const body = { role: req.user.role, authorId: req.user._id, username: req.user.username }
+        const token = jwt.sign({ body }, process.env.SECRET_KEY);
+        return res.status(200).send({
+            message: 'Auth Passed',
+            token: token
+        })
+    } catch (err) {
+        res.status(404).send(err.message);
+    } finally {
+        next();
+    }
 });
 
 

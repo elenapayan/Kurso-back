@@ -30,8 +30,8 @@ class PostService {
         return post;
     }
     
-    async addComment(postId, comment) {
-        const newComment = await PostRepository.addComment(postId, comment);
+    async addComment(postId, comment, authorId) {
+        const newComment = await PostRepository.addComment(postId, comment, authorId);
         return newComment;
     }
 
