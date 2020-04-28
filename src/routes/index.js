@@ -56,12 +56,12 @@ router.delete("/comments/:commentId", passport.authenticate('jwt', { session: fa
 
 //OffensiveWords
 router.get("/offensiveWords", offensiveWordsCtrl.getWords);
-router.post("/offensiveWords", offensiveWordsCtrl.saveWord);
-router.put("/offensiveWords/:wordId", offensiveWordsCtrl.updateWord);
-router.delete("/offensiveWords/:wordId", offensiveWordsCtrl.deleteWord);
+router.post("/offensiveWords", passport.authenticate('jwt', { session: false }), offensiveWordsCtrl.saveWord);
+router.put("/offensiveWords/:wordId", passport.authenticate('jwt', { session: false }), offensiveWordsCtrl.updateWord);
+router.delete("/offensiveWords/:wordId", passport.authenticate('jwt', { session: false }), offensiveWordsCtrl.deleteWord);
 
 //Users
-router.post("/user", userCtrl.saveUser);
+router.post("/user", passport.authenticate('jwt', { session: false }), userCtrl.saveUser);
 
 //Login
 router.post("/login", passport.authenticate('basic', { session: false }), (req, res) => {
