@@ -6,9 +6,13 @@ const bcrypt = require("bcrypt");
 class UserRepository {
     constructor() { }
 
-    async saveUser(username, password) {
+    async saveUser(username, password, role) {
         const passwordHash = await bcrypt.hash(password, bcrypt.genSaltSync(8), null);
-        const newUser = new User({ username: username, password: passwordHash });
+        const newUser = new User({
+            username: username,
+            password: passwordHash,
+            role: role
+        });
         const userSaved = await newUser.save();
         return userSaved;
     };
@@ -16,6 +20,11 @@ class UserRepository {
     async findUser(username) {
         const user = await User.findOne({ username });
         return user;
+    }
+
+    async getUsers() {
+        const users = User.find({});
+        return users;
     }
 };
 

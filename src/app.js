@@ -7,6 +7,8 @@ const mongoose = require("mongoose");
 // const fs = require("fs");
 // const https = require("https");
 const api = require("./routes/index");
+const populateOW = require("./db/load_offensiveWords");
+const populateUsers=require("./db/load_admins");
 
 
 app.use(express.urlencoded({ extended: false }));
@@ -26,8 +28,11 @@ async function dbConnect() {
     console.log("Connected to Mongo");
 }
 
+
 async function main() {
     await dbConnect();
+    populateOW.populateOffensiveWords();
+    populateUsers.populateUsers();
     app.listen(process.env.PORT, () => console.log('Server started in port 3000'));
 
     // // Poniendo esto en la terminal - openssl req -nodes -new -x509 -keyout server.key -out server.cert - generamos una key y un certificado inseguro de cara a utilizar https

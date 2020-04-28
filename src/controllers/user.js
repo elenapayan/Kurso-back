@@ -7,9 +7,8 @@ class UserController {
 
     async saveUser(req, res, next) {
         try {
-            const { username } = req.body;
-            const { password } = req.body;
-            const newUser = await UserService.saveUser(username, password);
+            const { username, password, role } = req.body;
+            const newUser = await UserService.saveUser(username, password, role);
             res.status(200).send(newUser);
         } catch (err) {
             res.status(500).send(err.message);
