@@ -95,14 +95,13 @@ async function dbConnect() {
         useUnifiedTopology: true,
         useNewUrlParser: true
     });
-    console.log("Connected to Mongo");
 
     items = conn.db().collection('items');
 }
 
 async function main() {
     await dbConnect();
-    app.listen(3000, () => { console.log('Server started in port 3000') });
+    app.listen(3000);
 }
 
 main();

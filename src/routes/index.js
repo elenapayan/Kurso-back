@@ -1,7 +1,7 @@
 "use strict";
 
 //.env
-require('dotenv').config();
+// require('dotenv').config();
 const jwt = require("jsonwebtoken");
 //Express
 const express = require("express");
@@ -32,7 +32,7 @@ router.use(passport.initialize());
 //JwtAuth
 const jwtOpts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.SECRET_KEY
+    secretOrKey: "SECRET_KEY"
 }
 const jwtAuth = require("../middlewares/jwtAuth");
 const verifyToken = jwtAuth.verifyToken;
@@ -65,10 +65,9 @@ router.post("/user", passport.authenticate('jwt', { session: false }), userCtrl.
 
 //Login
 router.post("/login", passport.authenticate('basic', { session: false }), (req, res) => {
-    console.log(req);
     try {
         const body = { role: req.user.role, authorId: req.user._id, username: req.user.username }
-        const token = jwt.sign({ body }, process.env.SECRET_KEY);
+        const token = jwt.sign({ body }, "SECRET_KEY");
         return res.status(200).send({
             message: 'Auth Passed',
             token: token

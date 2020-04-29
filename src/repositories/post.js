@@ -18,7 +18,6 @@ class PostRepository {
 
     async deletePost(postId) {
         const post = await Post.findByIdAndDelete(postId);
-        console.log("repo post", post);
         return post;
     };
 

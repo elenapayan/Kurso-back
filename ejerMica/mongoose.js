@@ -94,9 +94,8 @@ async function dbConnect() {
         useFindAndModify: false
     });
 
-    console.log("Connected to Mongo");
 
-    var itemSchema = new mongoose.Schema({
+    const itemSchema = new mongoose.Schema({
         description: String,
         checked: Boolean
     });
@@ -108,7 +107,7 @@ async function main() {
     
     await dbConnect();
 
-    app.listen(3000, () => console.log('Server started in port 3000'));
+    app.listen(3000);
 }
 
 main();

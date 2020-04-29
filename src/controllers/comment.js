@@ -24,7 +24,6 @@ class CommentController {
 
     async updateComment(req, res, next) {
         try {
-            console.log(req.user);
             const commentId = req.params.commentId;
             const newComment = req.body;
             const role = req.user.role;
