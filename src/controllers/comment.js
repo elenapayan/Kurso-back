@@ -11,7 +11,6 @@ class CommentController {
             const comment = await CommentService.getCommentById(commentId);
             if (comment !== null) {
                 res.status(200).send(comment);
-                // res.json(comment);
             } else {
                 res.status(404).send({ message: "No hay ningún comment con ese ID" });
             }
@@ -31,7 +30,7 @@ class CommentController {
             const comment = await CommentService.getCommentById(commentId);
             if (typeof newComment.nickname != 'string' || typeof newComment.comment != 'string') {
                 res.status(400).send({ message: "El comentario debe tener los campos nickname y comment" });
-            } if (role === "admin" || authorId.equals(comment.authorId)) {
+            } if (role === "admin" || authorId===comment.authorId) {
                 const commentUpdated = await CommentService.updateComment(commentId, newComment);
                 res.status(200).send(commentUpdated);
             } else {
@@ -50,7 +49,7 @@ class CommentController {
             const role = req.user.role;
             const authorId = req.user._id;
             const comment = await CommentService.getCommentById(commentId);
-            if (role === "admin" || authorId.equals(comment.authorId)) {
+            if (role === "admin" || authorId===comment.authorId) {
                 const commentDeleted = await CommentService.deleteComment(commentId);
                 res.status(200).send(commentDeleted);
             } else {

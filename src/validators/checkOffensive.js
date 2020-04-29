@@ -10,9 +10,6 @@ class CheckOffensiveValidator {
                 offensivesFound = [...offensivesFound, ow];
             }
         })
-        // En el caso de que no querer saber las palabras
-        // const found = words.some(w => offensiveWords.includes(w));
-        console.info('Offensive Found', offensivesFound);
         return offensivesFound;
     }
 

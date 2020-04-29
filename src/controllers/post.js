@@ -1,6 +1,5 @@
 "use strict";
 
-// const OffensiveValidator = require("../middlewares/offensiveValidator");
 const PostService = require("../services/post");
 
 class PostController {
@@ -10,11 +9,10 @@ class PostController {
         try {
             const post = await PostService.getPosts();
             res.status(200).send(post);
-            // res.json(post);
         } catch (err) {
-            res.status(404).send(err.message); //Con err.message nos muestra sólo el mensaje de error y no el error completo
+            res.status(404).send(err.message); 
         } finally {
-            next();//En este ejemplo en concreto no necesitaríamos el finally ni el next()
+            next();
         }
     }
 
@@ -24,7 +22,6 @@ class PostController {
             const post = await PostService.getPostById(postId);
             if (post !== null) {
                 res.status(200).send(post);
-                // res.json(post);
             } else {
                 res.status(404).send({ message: "No hay ningún post con ese ID" });
             }
@@ -41,7 +38,7 @@ class PostController {
             const role = req.user.role;
             const authorId = req.user._id;
             const post = await PostService.getPostById(postId);
-            if (role === "admin" || authorId.equals(post.authorId)) {
+            if (role === "admin" || authorId===post.authorId) {
                 const postDeleted = await PostService.deletePost(postId);
                 res.status(200).send(postDeleted);
             } else {
@@ -82,7 +79,7 @@ class PostController {
             if (typeof newPost.author != 'string' || typeof newPost.nickname != 'string' || typeof newPost.title != 'string' || typeof newPost.content != 'string') {
                 res.status(400).send({ message: "El post debe tener los campos author, nickname, title y content" });
             }
-            if (role === "admin" || authorId.equals(post.authorId)) {
+            if (role === "admin" || authorId===post.authorId) {
                 const postUpdated = await PostService.updatePost(postId, newPost);
                 res.status(200).send(postUpdated);
             }

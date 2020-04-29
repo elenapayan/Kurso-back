@@ -2,7 +2,6 @@
 
 const UserRepo = require("../repositories/user");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
 class CheckBasicAuth {
     constructor() { }

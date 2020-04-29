@@ -15,10 +15,10 @@ describe("System test", () => {
             .set("Accept", "aplication/json")
             .set("Authorization", "bearer " + token)
             .send({
-                "author": "admin",
-                "nickname": "Helen",
+                "author": "Sócrates",
+                "nickname": "Sócrates",
                 "title": "title",
-                "content": "lorem ipsum"
+                "content": "La verdadera sabiduría está en reconocer la propia ignorancia"
             })
             .expect(200)
         expect(createPost.body.title).toBe("title");
@@ -33,13 +33,13 @@ describe("System test", () => {
             .set("Accept", "aplication/json")
             .set("Authorization", "bearer " + token)
             .send({
-                "author": "admin",
-                "nickname": "Helen",
-                "title": "titlee",
-                "content": "lorem ipsum"
+                "author": "Sócrates",
+                "nickname": "Sócrates",
+                "title": "Sabiduría",
+                "content": "La verdadera sabiduría está en reconocer la propia ignorancia"
             })
             .expect(200)
-        expect(updatePost.body.title).toBe("titlee");
+        expect(updatePost.body.title).toBe("Sabiduría");
 
 
         const deletePostId = await request.delete(`/api/posts/${postId}`).expect(200)
@@ -48,7 +48,7 @@ describe("System test", () => {
         expect(deletePostId).not.toBe(null);
 
         const getPostId2 = await request.get(`/api/posts/${postId}`).expect(404)
-        expect(getPostId2.body.title).not.toBe("titlee");
+        expect(getPostId2.body.title).not.toBe("Sabiduría");
 
     })
 })

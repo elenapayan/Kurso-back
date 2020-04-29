@@ -14,12 +14,9 @@ class PopulateOW {
                 OffensiveWordsRepository.saveWord({ word: 'Pedo', level: 2 });
                 OffensiveWordsRepository.saveWord({ word: 'Pis', level: 1 });
                 OffensiveWordsRepository.saveWord({ word: 'Teta', level: 5 });
-                console.info('Populate offensive words success');
             } else {
-                console.log("LengthWords es distinto de 0")
             }
         } catch (err) {
-            console.log(err);
         }
     }
 }

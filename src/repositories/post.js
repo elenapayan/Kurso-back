@@ -7,12 +7,12 @@ class PostRepository {
     constructor() { }
 
     async getPosts() {
-        const post = await Post.find({}).select({ comments: 0, __v: 0 }); //De esta forma nos devuelve todo menos los comments y --v
+        const post = await Post.find({}).select({ comments: 0, __v: 0 });
         return post;
     };
 
     async getPostById(postId) {
-        const post = await Post.findById(postId).populate("comments"); //Aquí ponemos comments porque es el nombre del array en el que insertmamos los comentarios en posts
+        const post = await Post.findById(postId).populate("comments");
         return post;
     };
 
@@ -22,7 +22,7 @@ class PostRepository {
     };
 
     async updatePost(postId, post) {
-        const newPost = await Post.findByIdAndUpdate(postId, post, { new: true }); //{new:true} hace que cuando actualicemos nos muestre el post ya actualizado, sino nos mostrará el post tal cual estaba antes de la modificación
+        const newPost = await Post.findByIdAndUpdate(postId, post, { new: true }); 
         return newPost;
     };
 
@@ -40,7 +40,7 @@ class PostRepository {
 
     async addComment(postId, comment, authorId) {
         const newComment = await CommentRepository.addComment(comment, authorId);
-        const postUpdate = await Post.findByIdAndUpdate(postId, { $push: { comments: newComment } }, { new: true }); //Aquí ponemos comments porque es así como está en el modelo de Post
+        const postUpdate = await Post.findByIdAndUpdate(postId, { $push: { comments: newComment } }, { new: true });
         return postUpdate;
     };
 };
