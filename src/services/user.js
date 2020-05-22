@@ -5,8 +5,8 @@ const UserRepository = require("../repositories/user");
 class UserService {
     constructor() { }
 
-    async saveUser(username, password, role) {
-        const newUser = await UserRepository.saveUser(username, password, role);
+    async saveUser(user) {
+        const newUser = await UserRepository.saveUser(user);
         return newUser;
     }
 }

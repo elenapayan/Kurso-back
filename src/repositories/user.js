@@ -6,12 +6,12 @@ const bcrypt = require("bcrypt");
 class UserRepository {
     constructor() { }
 
-    async saveUser(username, password, role) {
-        const passwordHash = await bcrypt.hash(password, bcrypt.genSaltSync(8), null);
+    async saveUser(user) {
+        const passwordHash = await bcrypt.hash(user.password, bcrypt.genSaltSync(8), null);
         const newUser = new User({
-            username: username,
+            username: user.username,
             password: passwordHash,
-            role: role
+            role: user.role
         });
         const userSaved = await newUser.save();
         return userSaved;
