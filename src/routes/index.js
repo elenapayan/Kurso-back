@@ -61,7 +61,7 @@ router.put("/offensiveWords/:wordId", passport.authenticate('jwt', { session: fa
 router.delete("/offensiveWords/:wordId", passport.authenticate('jwt', { session: false }), offensiveWordsCtrl.deleteWord);
 
 //Users
-router.post("/user", passport.authenticate('jwt', { session: false }), userCtrl.saveUser);
+router.post("/user", userCtrl.saveUser);
 
 //Login
 router.post("/login", passport.authenticate('basic', { session: false }), (req, res) => {
@@ -74,9 +74,7 @@ router.post("/login", passport.authenticate('basic', { session: false }), (req, 
         })
     } catch (err) {
         res.status(404).send(err.message);
-    } finally {
-        next();
-    }
+    } 
 });
 
 
