@@ -40,8 +40,8 @@ class PostRepository {
 
     async addComment(postId, comment, authorId) {
         const newComment = await CommentRepository.addComment(comment, authorId);
-        const postUpdate = await Post.findByIdAndUpdate(postId, { $push: { comments: newComment } }, { new: true }); //Aquí ponemos comments porque es así como está en el modelo de Post
-        return postUpdate;
+        await Post.findByIdAndUpdate(postId, { $push: { comments: newComment } }, { new: true }); //Aquí ponemos comments porque es así como está en el modelo de Post
+        return newComment;
     };
 };
 

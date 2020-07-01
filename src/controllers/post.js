@@ -59,10 +59,10 @@ class PostController {
         try {
             const post = req.body;
             const authorId = req.user._id;
-            const newPost = await PostService.savePost(post, authorId);
-            if (typeof newPost.author != 'string' || typeof newPost.nickname != 'string' || typeof newPost.title != 'string' || typeof newPost.content != 'string') {
-                res.status(400).send({ message: "El post debe tener los campos author, nickname, title y content" });
+            if (typeof post.nickname != 'string' || typeof post.title != 'string' || typeof post.content != 'string') {
+                res.status(400).send({ message: "El post debe tener los campos nickname, title y content" });
             } else {
+                const newPost = await PostService.savePost(post, authorId);
                 res.status(200).send(newPost);
             }
         } catch (err) {
@@ -79,8 +79,8 @@ class PostController {
             const role = req.user.role;
             const authorId = req.user._id;
             const post = await PostService.getPostById(postId);
-            if (typeof newPost.author != 'string' || typeof newPost.nickname != 'string' || typeof newPost.title != 'string' || typeof newPost.content != 'string') {
-                res.status(400).send({ message: "El post debe tener los campos author, nickname, title y content" });
+            if (typeof newPost.nickname != 'string' || typeof newPost.title != 'string' || typeof newPost.content != 'string') {
+                res.status(400).send({ message: "El post debe tener los campos nickname, title y content" });
             }
             if (role === "admin" || authorId.equals(post.authorId)) {
                 const postUpdated = await PostService.updatePost(postId, newPost);

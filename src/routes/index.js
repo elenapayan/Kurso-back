@@ -66,7 +66,7 @@ router.post("/user", userCtrl.saveUser);
 //Login
 router.post("/login", passport.authenticate('basic', { session: false }), (req, res) => {
     try {
-        const body = { role: req.user.role, authorId: req.user._id, username: req.user.username }
+        const body = { role: req.user.role, _id: req.user._id, username: req.user.username }
         const token = jwt.sign({ body }, "SECRET_KEY");
         return res.status(200).send({
             message: 'Auth Passed',
